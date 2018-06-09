@@ -247,3 +247,21 @@ suffix_matches_entire_list() ->
 suffix_matches_end_of_list() ->
     Result = rlists:stripsuffix("def", "abcdef"),
     ?assertEqual("abc", Result).
+
+infix_test_() ->
+    [fun infix_not_in_list/0,
+     fun infix_as_prefix/0,
+     fun infix_as_suffix/0,
+     fun infix_as_infix/0].
+
+infix_not_in_list() ->
+    ?assertNot(rlists:infix("bye", "Hello there")).
+
+infix_as_prefix() ->
+    ?assert(rlists:infix("Hello", "Hello there")).
+
+infix_as_suffix() ->
+    ?assert(rlists:infix("there", "Hello there")).
+
+infix_as_infix() ->
+    ?assert(rlists:infix("def", "abc def ghi")).
