@@ -265,3 +265,30 @@ infix_as_suffix() ->
 
 infix_as_infix() ->
     ?assert(rlists:infix("def", "abc def ghi")).
+
+group_test_() ->
+    [fun group_of_no_elements_is_identity/0,
+     fun group_of_one_element/0,
+     fun group_of_many_singles/0,
+     fun group_of_several/0,
+     fun mixed_groups/0].
+
+group_of_no_elements_is_identity() ->
+    ?assertEqual([], rlists:group([])).
+
+group_of_one_element() ->
+    Result = rlists:group([1]),
+    ?assertEqual([[1]], Result).
+
+group_of_many_singles() ->
+    Result = rlists:group("abcde"),
+    ?assertEqual(["a", "b", "c", "d", "e"], Result).
+
+group_of_several() ->
+    Result = rlists:group([1, 2, 2, 3, 3, 3]),
+    ?assertEqual([[1], [2, 2], [3, 3, 3]], Result).
+
+mixed_groups() ->
+    Result = rlists:group("Mississippi"),
+    Expected = ["M", "i", "ss", "i", "ss", "i", "pp", "i"],
+    ?assertEqual(Expected, Result).
