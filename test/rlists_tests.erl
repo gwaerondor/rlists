@@ -1,5 +1,4 @@
 -module(rlists_tests).
-
 -include_lib("eunit/include/eunit.hrl").
 
 intersperse_test_() ->
@@ -10,10 +9,10 @@ intersperse_test_() ->
 intersperse_with_empty_list_is_identity() ->
     Result = rlists:intersperse(something, []),
     ?assertEqual([], Result).
-    
+
 intersperse_with_one_element_is_identity() ->
     Result = rlists:intersperse(ladies, [gentlemen]),
-    ?assertEqual([gentlemen], Result).    
+    ?assertEqual([gentlemen], Result).
 
 intersperse_with_some_elements() ->
     Result = rlists:intersperse($\s, "NOPE"),
@@ -32,7 +31,7 @@ intercalate_with_empty_list_is_identity() ->
 intercalate_with_one_element_does_not_insert() ->
     Result = rlists:intercalate("!", ["DOINK"]),
     ?assertEqual("DOINK", Result).
-    
+
 intercalate_with_several_elements() ->
     Strings = string:tokens("This is Sparta!", " "),
     Result = rlists:intercalate(" - ", Strings),
@@ -94,7 +93,7 @@ chunking_an_empty_list_is_identity() ->
 
 chunking_more_than_entire_list_results_in_one_chunk() ->
     ?assertEqual(["abc"], rlists:chunks(10, "abc")).
-    
+
 chunking_full_list_results_in_one_chunk() ->
     ?assertEqual(["def"], rlists:chunks(3, "def")).
 
@@ -309,4 +308,22 @@ inits_of_single_element_list() ->
 inits_of_many_element_list() ->
     Result = rlists:inits("abc"),
     Expected = ["", "a", "ab", "abc"],
+    ?assertEqual(Expected, Result).
+
+tails_test_() ->
+    [fun tails_of_empty_list_is_empty/0,
+     fun tails_of_single_element_list/0,
+     fun tails_of_many_element_list/0].
+
+tails_of_empty_list_is_empty() ->
+    Result = rlists:tails([]),
+    ?assertEqual([[]], Result).
+
+tails_of_single_element_list() ->
+    Result = rlists:tails([dood]),
+    ?assertEqual([[dood], []], Result).
+
+tails_of_many_element_list() ->
+    Result = rlists:tails("COOL"),
+    Expected = ["COOL", "OOL", "OL", "L", ""],
     ?assertEqual(Expected, Result).

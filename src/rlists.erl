@@ -84,7 +84,7 @@ infix(Infix, List) ->
 	false ->
 	    infix(Infix, tl(List))
     end.
-			   
+
 
 group([]) ->
     [];
