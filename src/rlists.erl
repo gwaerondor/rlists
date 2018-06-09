@@ -3,6 +3,8 @@
 -export([intersperse/2,
 	 intercalate/2,
 	 iterate/3,
+	 scanl/3,
+	 scanr/3,
 	 take/2,
 	 drop/2,
 	 chunks/2,
@@ -58,6 +60,14 @@ iterate(Fun, X, N) when N > 0 ->
     [X | iterate(Fun, Fun(X), N - 1)];
 iterate(_, _, _) ->
     [].
+
+scanl(_, Acc, []) ->
+    [Acc];
+scanl(Fun, Acc, [H|T]) ->
+    [Acc | scanl(Fun, Fun(H, Acc), T)]. 
+
+scanr(Fun, Acc, L) ->
+    scanl(Fun, Acc, lists:reverse(L)).
 
 span(Pred, List) ->
     {lists:takewhile(Pred, List),

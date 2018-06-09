@@ -327,3 +327,42 @@ tails_of_many_element_list() ->
     Result = rlists:tails("COOL"),
     Expected = ["COOL", "OOL", "OL", "L", ""],
     ?assertEqual(Expected, Result).
+
+scanl_test_() ->
+    [fun scanl_on_empty_list_results_in_starting_value/0,
+     fun scanl_with_several_elements/0,
+     fun last_element_of_scanl_is_foldl/0].
+
+scanl_on_empty_list_results_in_starting_value() ->
+    Result = rlists:scanl(fun erlang:'+'/2, 0, []),
+    ?assertEqual([0], Result).
+
+scanl_with_several_elements() ->
+    Result = rlists:scanl(fun erlang:'+'/2, 0, [1, 2, 3, 4]),
+    Expected = [0, 1, 3, 6, 10],
+    ?assertEqual(Expected, Result).
+
+last_element_of_scanl_is_foldl() ->
+    Foldl = lists:foldl(fun erlang:'+'/2, 0, [1, 2, 3, 4, 5]),
+    Scanl = rlists:scanl(fun erlang:'+'/2, 0, [1, 2, 3, 4, 5]),
+    ?assertEqual(Foldl, lists:last(Scanl)).
+
+scanr_test_() ->
+    [fun scanr_on_empty_list_results_in_starting_value/0,
+     fun scanr_with_several_elements/0,
+     fun last_element_of_scanr_is_foldr/0].
+
+scanr_on_empty_list_results_in_starting_value() ->
+    Result = rlists:scanr(fun erlang:'++'/2, "Hi", []),
+    ?assertEqual(["Hi"], Result).
+
+scanr_with_several_elements() ->
+    Result = rlists:scanr(fun erlang:'++'/2, "4", ["1", "2", "3"]),
+    Expected = ["4", "34", "234", "1234"],
+    ?assertEqual(Expected, Result).
+
+last_element_of_scanr_is_foldr() ->
+    Foldr = lists:foldr(fun erlang:'++'/2, "", ["1", "2", "3"]),
+    Scanr = rlists:scanr(fun erlang:'++'/2, "", ["1", "2", "3"]),
+    ?assertEqual(Foldr, lists:last(Scanr)).
+    
