@@ -54,8 +54,8 @@ init([_ | []]) ->
 init([H | T]) ->
     [H | init(T)].
 
-iterate(X, Fun, N) when N > 0 ->
-    [X | iterate(Fun(X), Fun, N - 1)];
+iterate(Fun, X, N) when N > 0 ->
+    [X | iterate(Fun, Fun(X), N - 1)];
 iterate(_, _, _) ->
     [].
 

@@ -133,17 +133,17 @@ double(X) -> X * 2.
 
 zero_iterations_returns_empty_list() ->
     Iterations = 0,
-    Result = rlists:iterate(10, fun double/1, Iterations),
+    Result = rlists:iterate(fun double/1, 10, Iterations),
     ?assertEqual([], Result).
 
 one_iteration_returns_only_original() ->
     Iterations = 1,
-    Result = rlists:iterate(10, fun double/1, Iterations),
+    Result = rlists:iterate(fun double/1, 10, Iterations),
     ?assertEqual([10], Result).
 
 several_iterations() ->
     Iterations = 8,
-    Result = rlists:iterate(1, fun double/1, Iterations),
+    Result = rlists:iterate(fun double/1, 1, Iterations),
     Expected = [1, 2, 4, 8, 16, 32, 64, 128],
     ?assertEqual(Expected, Result).
 
