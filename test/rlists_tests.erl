@@ -220,3 +220,30 @@ prefix_matches_entire_list() ->
 prefix_matches_beginning_of_list() ->
     Result = rlists:stripprefix("123", "123456"),
     ?assertEqual("456", Result).
+
+stripsuffix_test_() ->
+    [fun non_matching_suffix_is_identity/0,
+     fun suffix_before_end_does_not_count/0,
+     fun suffix_matches_only_partially/0,
+     fun suffix_matches_entire_list/0,
+     fun suffix_matches_end_of_list/0].
+
+non_matching_suffix_is_identity() ->
+    Result = rlists:stripsuffix("456", "123abc"),
+    ?assertEqual("123abc", Result).
+
+suffix_before_end_does_not_count() ->
+    Result = rlists:stripsuffix("123", "123456"),
+    ?assertEqual("123456", Result).
+
+suffix_matches_only_partially() ->
+    Result = rlists:stripsuffix("457", "123456"),
+    ?assertEqual("123456", Result).
+
+suffix_matches_entire_list() ->
+    Result = rlists:stripsuffix("123", "123"),
+    ?assertEqual([], Result).
+
+suffix_matches_end_of_list() ->
+    Result = rlists:stripsuffix("def", "abcdef"),
+    ?assertEqual("abc", Result).

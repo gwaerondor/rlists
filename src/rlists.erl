@@ -72,8 +72,8 @@ stripprefix(Prefix, List) ->
     end.
 
 stripsuffix(Suffix, List) ->
-    lists:reverse(rlists:stripprefix(lists:reverse(List),
-				     lists:reverse(Suffix))).
+    lists:reverse(stripprefix(lists:reverse(Suffix),
+			      lists:reverse(List))).
 
 infix(Infix, List) when length(List) < length(Infix) ->
     false;
