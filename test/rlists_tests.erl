@@ -292,3 +292,21 @@ mixed_groups() ->
     Result = rlists:group("Mississippi"),
     Expected = ["M", "i", "ss", "i", "ss", "i", "pp", "i"],
     ?assertEqual(Expected, Result).
+
+inits_test_() ->
+    [fun inits_of_empty_list_is_empty/0,
+     fun inits_of_single_element_list/0,
+     fun inits_of_many_element_list/0].
+
+inits_of_empty_list_is_empty() ->
+    Result = rlists:inits([]),
+    ?assertEqual([[]], Result).
+
+inits_of_single_element_list() ->
+    Result = rlists:inits([1]),
+    ?assertEqual([[], [1]], Result).
+
+inits_of_many_element_list() ->
+    Result = rlists:inits("abc"),
+    Expected = ["", "a", "ab", "abc"],
+    ?assertEqual(Expected, Result).

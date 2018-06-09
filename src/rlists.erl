@@ -99,7 +99,7 @@ inits(L) ->
 inits(L, Stop, Stop) ->
     [L];
 inits(L, N, Stop) ->
-    [rlists:take(L, N) | inits(L, N + 1, Stop)].
+    [rlists:take(N, L) | inits(L, N + 1, Stop)].
 
 tails([]) ->
     [[]];
