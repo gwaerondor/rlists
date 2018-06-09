@@ -2,9 +2,13 @@
 -include_lib("eunit/include/eunit.hrl").
 
 intersperse_test_() ->
-    [fun intersperse_with_empty_list_is_identity/0,
-     fun intersperse_with_one_element_is_identity/0,
-     fun intersperse_with_some_elements/0].
+    [{"Interspercing with empty list will not insert anything into the list",
+      fun intersperse_with_empty_list_is_identity/0},
+     {"Interspercing with a single element will not insert anything",
+      fun intersperse_with_one_element_is_identity/0},
+     {"Interspercing will put the specified "
+      "element between every element of a list",
+      fun intersperse_with_some_elements/0}].
 
 intersperse_with_empty_list_is_identity() ->
     Result = rlists:intersperse(something, []),
@@ -19,9 +23,13 @@ intersperse_with_some_elements() ->
     ?assertEqual("N O P E", Result).
 
 intercalate_test_() ->
-    [fun intercalate_with_empty_list_is_identity/0,
-     fun intercalate_with_one_element_does_not_insert/0,
-     fun intercalate_with_several_elements/0
+    [{"Intercallating with an empty list will not insert any elements",
+      fun intercalate_with_empty_list_is_identity/0},
+     {"Intercallating with one element will not insert anything",
+      fun intercalate_with_one_element_does_not_insert/0},
+     {"Intercallating will put the elements of one list between "
+      "each of the target lists and concatenate them",
+      fun intercalate_with_several_elements/0}
     ].
 
 intercalate_with_empty_list_is_identity() ->
@@ -39,10 +47,15 @@ intercalate_with_several_elements() ->
     ?assertEqual(Expected, Result).
 
 take_test_() ->
-    [fun take_from_empty_list_is_identity/0,
-     fun take_more_than_available_is_identity/0,
-     fun take_entire_list_is_identity/0,
-     fun take_a_few_elements_from_list/0].
+    [{"Trying to take from an empty list will not result in any elements",
+      fun take_from_empty_list_is_identity/0},
+     {"Trying to take beyond the end of a list will return the full list",
+      fun take_more_than_available_is_identity/0},
+     {"Taking the same amount of elements as is available in the list "
+      "will give the same list back",
+      fun take_entire_list_is_identity/0},
+     {"Taking elements from a list returns the first elements as a new list",
+      fun take_a_few_elements_from_list/0}].
 
 take_from_empty_list_is_identity() ->
     ?assertEqual([], rlists:take(5, [])).
@@ -62,10 +75,15 @@ take_a_few_elements_from_list() ->
     ?assertEqual("hello", rlists:take(5, List)).
 
 drop_test_() ->
-    [fun drop_from_empty_list_is_identity/0,
-     fun drop_more_than_available_results_in_empty_list/0,
-     fun drop_entire_length_results_in_empty_list/0,
-     fun drop_a_few_elements/0].
+    [{"Dropping from an empty list does nothing",
+      fun drop_from_empty_list_is_identity/0},
+     {"Dropping more elements than are in the list results in an empty list",
+      fun drop_more_than_available_results_in_empty_list/0},
+     {"Dropping all elements in a list results in an empty list",
+      fun drop_entire_length_results_in_empty_list/0},
+     {"Dropping elements from a list results in a new "
+      "list missing the first few elements ",
+      fun drop_a_few_elements/0}].
 
 drop_from_empty_list_is_identity() ->
     ?assertEqual([], rlists:drop(100, [])).
