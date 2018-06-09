@@ -24,7 +24,7 @@ intersperse(E, [H|T]) ->
     [H, E | intersperse(E, T)].
 
 intercalate(Inters, Lists) ->
-    lists:concat(rlists:intersperse(Inters, Lists)).
+    lists:concat(intersperse(Inters, Lists)).
 
 take(0, _) ->
     [];
@@ -98,7 +98,7 @@ group([]) ->
     [];
 group([H|T]) ->
     Pred = fun(X) -> X =:= H end,
-    {Group, Rest} = rlists:span(Pred, T),
+    {Group, Rest} = span(Pred, T),
     [[H | Group] | group(Rest)].
 
 inits(L) ->
@@ -107,7 +107,7 @@ inits(L) ->
 inits(L, Stop, Stop) ->
     [L];
 inits(L, N, Stop) ->
-    [rlists:take(N, L) | inits(L, N + 1, Stop)].
+    [take(N, L) | inits(L, N + 1, Stop)].
 
 tails([]) ->
     [[]];
