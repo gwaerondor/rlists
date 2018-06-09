@@ -365,4 +365,3 @@ last_element_of_scanr_is_foldr() ->
     Foldr = lists:foldr(fun erlang:'++'/2, "", ["1", "2", "3"]),
     Scanr = rlists:scanr(fun erlang:'++'/2, "", ["1", "2", "3"]),
     ?assertEqual(Foldr, lists:last(Scanr)).
-    

@@ -1,5 +1,4 @@
 -module(rlists).
-
 -export([intersperse/2,
 	 intercalate/2,
 	 iterate/3,
@@ -64,7 +63,7 @@ iterate(_, _, _) ->
 scanl(_, Acc, []) ->
     [Acc];
 scanl(Fun, Acc, [H|T]) ->
-    [Acc | scanl(Fun, Fun(H, Acc), T)]. 
+    [Acc | scanl(Fun, Fun(H, Acc), T)].
 
 scanr(Fun, Acc, L) ->
     scanl(Fun, Acc, lists:reverse(L)).
@@ -94,7 +93,6 @@ infix(Infix, List) ->
 	false ->
 	    infix(Infix, tl(List))
     end.
-
 
 group([]) ->
     [];
