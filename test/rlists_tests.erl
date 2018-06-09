@@ -100,11 +100,16 @@ drop_a_few_elements() ->
     ?assertEqual("short list", rlists:drop(14, List)).
 
 chunks_test_() ->
-    [fun chunking_an_empty_list_is_identity/0,
-     fun chunking_more_than_entire_list_results_in_one_chunk/0,
-     fun chunking_full_list_results_in_one_chunk/0,
-     fun chunking_into_perfect_pieces/0,
-     fun chunking_into_imperfect_pieces_has_remainder_in_final_chunk/0].
+    [{"Chunking an empty list does nothing",
+      fun chunking_an_empty_list_is_identity/0},
+     {"Chunking more than is available will return a single chunk",
+      fun chunking_more_than_entire_list_results_in_one_chunk/0},
+     {"Chunking full list results in a single chunk",
+      fun chunking_full_list_results_in_one_chunk/0},
+     {"Chunking a list into perfect sizes",
+      fun chunking_into_perfect_pieces/0},
+     {"Chunking a list into sizes where there is a remainder",
+      fun chunking_into_imperfect_pieces_has_remainder_in_final_chunk/0}].
 
 chunking_an_empty_list_is_identity() ->
     ?assertEqual([], rlists:chunks(10, [])).
@@ -127,9 +132,12 @@ chunking_into_imperfect_pieces_has_remainder_in_final_chunk() ->
     ?assertEqual(Expected, Result).
 
 init_test_() ->
-    [fun init_of_empty_list_results_in_badarg/0,
-     fun init_of_one_element_is_empty_list/0,
-     fun init_of_longer_list/0].
+    [{"The init of an empty list should result in a badarg error",
+      fun init_of_empty_list_results_in_badarg/0},
+     {"init of a list with a single element is the empty list",
+      fun init_of_one_element_is_empty_list/0},
+     {"Init of a list is all elements except the last one",
+      fun init_of_longer_list/0}].
 
 init_of_empty_list_results_in_badarg() ->
     ?assertError(badarg, rlists:init([])).
@@ -143,9 +151,12 @@ init_of_longer_list() ->
     ?assertEqual("Hello, world", Result).
 
 iterate_test_() ->
-    [fun zero_iterations_returns_empty_list/0,
-     fun one_iteration_returns_only_original/0,
-     fun several_iterations/0].
+    [{"Zero iterations of a function results in an empty list",
+      fun zero_iterations_returns_empty_list/0},
+     {"One iteration of a function results in only the input value",
+      fun one_iteration_returns_only_original/0},
+     {"Several iterations of a function on an initial input value",
+      fun several_iterations/0}].
 
 double(X) -> X * 2.
 
@@ -166,13 +177,20 @@ several_iterations() ->
     ?assertEqual(Expected, Result).
 
 span_test_() ->
-    [fun span_of_empty_list_has_no_results_on_either_side/0,
-     fun span_of_all_elements/0,
-     fun span_of_no_elements/0,
-     fun span_of_all_elements_at_beginning_of_list/0,
-     fun span_of_elements_at_beginning_of_list_with_more_at_the_end/0,
-     fun span_with_more_occurrences/0,
-     fun span_with_elements_only_at_the_end/0].
+    [{"An empty list has no elements on either side",
+      fun span_of_empty_list_has_no_results_on_either_side/0},
+     {"All elements fulfill the predicate",
+      fun span_of_all_elements/0},
+     {"No element fulfills the predicate",
+      fun span_of_no_elements/0},
+     {"All elements fulfilling the predicate are at the start",
+      fun span_of_all_elements_at_beginning_of_list/0},
+     {"Some elements fulfilling the predicate on each side",
+      fun span_of_elements_at_beginning_of_list_with_more_at_the_end/0},
+     {"Some elements fulfilling the predicate come after those that do not",
+      fun span_with_more_occurrences/0},
+     {"Elements fulfilling the predicate occur at the end",
+      fun span_with_elements_only_at_the_end/0}].
 
 even(X) ->
     X rem 2 == 0.
@@ -212,11 +230,16 @@ span_with_elements_only_at_the_end() ->
     ?assertEqual(Expected, Result).
 
 stripprefix_test_() ->
-    [fun non_matching_prefix_is_identity/0,
-     fun prefix_after_beginning_does_not_count/0,
-     fun prefix_matches_only_partially/0,
-     fun prefix_matches_entire_list/0,
-     fun prefix_matches_beginning_of_list/0].
+    [{"The prefix doesn't match",
+      fun non_matching_prefix_is_identity/0},
+     {"The prefix is in the list but not at the start",
+      fun prefix_after_beginning_does_not_count/0},
+     {"The prefix matches partially",
+      fun prefix_matches_only_partially/0},
+     {"The prefix is equal to the full list",
+      fun prefix_matches_entire_list/0},
+     {"Prefix is a proper prefix of the list",
+      fun prefix_matches_beginning_of_list/0}].
 
 non_matching_prefix_is_identity() ->
     Result = rlists:stripprefix("abc", "Hello"),
@@ -239,11 +262,16 @@ prefix_matches_beginning_of_list() ->
     ?assertEqual("456", Result).
 
 stripsuffix_test_() ->
-    [fun non_matching_suffix_is_identity/0,
-     fun suffix_before_end_does_not_count/0,
-     fun suffix_matches_only_partially/0,
-     fun suffix_matches_entire_list/0,
-     fun suffix_matches_end_of_list/0].
+    [{"The suffix doesn't match",
+      fun non_matching_suffix_is_identity/0},
+     {"The suffix is in the list, but not at the end",
+      fun suffix_before_end_does_not_count/0},
+     {"The suffix matches partially",
+      fun suffix_matches_only_partially/0},
+     {"The suffix is equal to the full list",
+      fun suffix_matches_entire_list/0},
+     {"The suffix is a proper suffix of the list",
+      fun suffix_matches_end_of_list/0}].
 
 non_matching_suffix_is_identity() ->
     Result = rlists:stripsuffix("456", "123abc"),
@@ -266,10 +294,14 @@ suffix_matches_end_of_list() ->
     ?assertEqual("abc", Result).
 
 infix_test_() ->
-    [fun infix_not_in_list/0,
-     fun infix_as_prefix/0,
-     fun infix_as_suffix/0,
-     fun infix_as_infix/0].
+    [{"Not present",
+      fun infix_not_in_list/0},
+     {"The infix is at the start of the list",
+      fun infix_as_prefix/0},
+     {"The infix is at the end of the list",
+      fun infix_as_suffix/0},
+     {"The infix is somewhere in the middle of the list",
+      fun infix_as_infix/0}].
 
 infix_not_in_list() ->
     ?assertNot(rlists:infix("bye", "Hello there")).
@@ -284,11 +316,16 @@ infix_as_infix() ->
     ?assert(rlists:infix("def", "abc def ghi")).
 
 group_test_() ->
-    [fun group_of_no_elements_is_identity/0,
-     fun group_of_one_element/0,
-     fun group_of_many_singles/0,
-     fun group_of_several/0,
-     fun mixed_groups/0].
+    [{"No elements does nothing",
+      fun group_of_no_elements_is_identity/0},
+     {"Only one element is present",
+      fun group_of_one_element/0},
+     {"There are many elements but all are ungrouped",
+      fun group_of_many_singles/0},
+     {"There are many groups with several elements",
+      fun group_of_several/0},
+     {"There are groups of one or more elements",
+      fun mixed_groups/0}].
 
 group_of_no_elements_is_identity() ->
     ?assertEqual([], rlists:group([])).
@@ -311,9 +348,12 @@ mixed_groups() ->
     ?assertEqual(Expected, Result).
 
 inits_test_() ->
-    [fun inits_of_empty_list_is_empty/0,
-     fun inits_of_single_element_list/0,
-     fun inits_of_many_element_list/0].
+    [{"The empty list gives an empty init",
+      fun inits_of_empty_list_is_empty/0},
+     {"Init of a list with a single element",
+      fun inits_of_single_element_list/0},
+     {"Inits of a list with many elements",
+      fun inits_of_many_element_list/0}].
 
 inits_of_empty_list_is_empty() ->
     Result = rlists:inits([]),
@@ -329,9 +369,12 @@ inits_of_many_element_list() ->
     ?assertEqual(Expected, Result).
 
 tails_test_() ->
-    [fun tails_of_empty_list_is_empty/0,
-     fun tails_of_single_element_list/0,
-     fun tails_of_many_element_list/0].
+    [{"The empty list gives an empty tail",
+      fun tails_of_empty_list_is_empty/0},
+     {"Tails of a list with a single element",
+      fun tails_of_single_element_list/0},
+     {"Tails of a list with many elements",
+      fun tails_of_many_element_list/0}].
 
 tails_of_empty_list_is_empty() ->
     Result = rlists:tails([]),
@@ -347,9 +390,12 @@ tails_of_many_element_list() ->
     ?assertEqual(Expected, Result).
 
 scanl_test_() ->
-    [fun scanl_on_empty_list_results_in_starting_value/0,
-     fun scanl_with_several_elements/0,
-     fun last_element_of_scanl_is_foldl/0].
+    [{"Empty list results in only the starting value",
+      fun scanl_on_empty_list_results_in_starting_value/0},
+     {"Several elements in list applies in a foldl fashion",
+      fun scanl_with_several_elements/0},
+     {"By definition, the last element is the same as what foldl returns",
+      fun last_element_of_scanl_is_foldl/0}].
 
 scanl_on_empty_list_results_in_starting_value() ->
     Result = rlists:scanl(fun erlang:'+'/2, 0, []),
@@ -366,9 +412,12 @@ last_element_of_scanl_is_foldl() ->
     ?assertEqual(Foldl, lists:last(Scanl)).
 
 scanr_test_() ->
-    [fun scanr_on_empty_list_results_in_starting_value/0,
-     fun scanr_with_several_elements/0,
-     fun last_element_of_scanr_is_foldr/0].
+    [{"Empty list results in only the starting value",
+      fun scanr_on_empty_list_results_in_starting_value/0},
+     {"Several elements in list applies in a foldr fashion",
+      fun scanr_with_several_elements/0},
+     {"By definition, the last element is the same as what foldr returns",
+      fun last_element_of_scanr_is_foldr/0}].
 
 scanr_on_empty_list_results_in_starting_value() ->
     Result = rlists:scanr(fun erlang:'++'/2, "Hi", []),
