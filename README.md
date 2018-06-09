@@ -28,7 +28,7 @@ For example,
 ```
 is equivalent to
 ```haskell
-  take 10 $ iterate (*2) 1
+  take 99 $ iterate (*2) 1
 ```
 i.e., the resulting list will have the function applied
 0, 1, .., 98 times on the initial value (1).
