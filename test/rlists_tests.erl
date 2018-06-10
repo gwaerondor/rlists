@@ -151,29 +151,29 @@ init_of_longer_list() ->
     ?assertEqual("Hello, world", Result).
 
 iterate_test_() ->
-    [{"Zero iterations of a function results in an empty list",
-      fun zero_iterations_returns_empty_list/0},
-     {"One iteration of a function results in only the input value",
-      fun one_iteration_returns_only_original/0},
+    [{"Zero iterations of a function returns the input value",
+      fun zero_iterations_returns_only_original/0},
+     {"One iteration of a function applies once",
+      fun one_iteration_has_two_elements/0},
      {"Several iterations of a function on an initial input value",
       fun several_iterations/0}].
 
 double(X) -> X * 2.
 
-zero_iterations_returns_empty_list() ->
+zero_iterations_returns_only_original() ->
     Iterations = 0,
     Result = rlists:iterate(fun double/1, 10, Iterations),
-    ?assertEqual([], Result).
+    ?assertEqual([10], Result).
 
-one_iteration_returns_only_original() ->
+one_iteration_has_two_elements() ->
     Iterations = 1,
     Result = rlists:iterate(fun double/1, 10, Iterations),
-    ?assertEqual([10], Result).
+    ?assertEqual([10, 20], Result).
 
 several_iterations() ->
     Iterations = 8,
     Result = rlists:iterate(fun double/1, 1, Iterations),
-    Expected = [1, 2, 4, 8, 16, 32, 64, 128],
+    Expected = [1, 2, 4, 8, 16, 32, 64, 128, 256],
     ?assertEqual(Expected, Result).
 
 span_test_() ->
@@ -432,3 +432,33 @@ last_element_of_scanr_is_foldr() ->
     Foldr = lists:foldr(fun erlang:'++'/2, "", ["1", "2", "3"]),
     Scanr = rlists:scanr(fun erlang:'++'/2, "", ["1", "2", "3"]),
     ?assertEqual(Foldr, lists:last(Scanr)).
+
+nthiteration_test_() ->
+    [{"Zero iterations is the identity function",
+     fun zero_iterations_is_identity/0},
+     {"One iteration",
+      fun one_iteration/0},
+    {"Eight iterations",
+     fun eight_iterations/0},
+    {"Last element of iterate/3 is equal to nthiterate",
+     fun last_element_of_iterate_is_the_same_as_nthiter/0}].
+
+zero_iterations_is_identity() ->
+    Iterations = 0,
+    Result = rlists:nthiteration(fun double/1, 10, Iterations),
+    ?assertEqual(10, Result).
+
+one_iteration() ->
+    Iterations = 1,
+    Result = rlists:nthiteration(fun double/1, 10, Iterations),
+    ?assertEqual(20, Result).
+
+eight_iterations() ->
+    Iterations = 8,
+    Result = rlists:nthiteration(fun double/1, 1, Iterations),
+    ?assertEqual(256, Result).
+
+last_element_of_iterate_is_the_same_as_nthiter() ->
+    Iterate = rlists:iterate(fun double/1, 10, 3),
+    NthIter = rlists:nthiteration(fun double/1, 10, 3),
+    ?assertEqual(lists:last(Iterate), NthIter).

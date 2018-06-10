@@ -20,7 +20,7 @@ The rebar3 skeleton is just there for easier compilation and testing).
 ## Notes
 There are no infinite lists in Erlang.
 Thus, functions that operate with infinite lists in Haskell will require
-an additional input argument stating how many elements are required.
+an additional input argument stating a terminating condition.
 
 For example,
 ```erlang
@@ -28,7 +28,7 @@ For example,
 ```
 is equivalent to
 ```haskell
-  take 99 $ iterate (*2) 1
+  take 100 $ iterate (*2) 1
 ```
 i.e., the resulting list will have the function applied
-0, 1, .., 98 times on the initial value (1).
+0, 1, ..., 99 times on the initial value (1).

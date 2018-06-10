@@ -2,6 +2,7 @@
 -export([intersperse/2,
 	 intercalate/2,
 	 iterate/3,
+	 nthiteration/3,
 	 scanl/3,
 	 scanr/3,
 	 take/2,
@@ -57,8 +58,13 @@ init([H | T]) ->
 
 iterate(Fun, X, N) when N > 0 ->
     [X | iterate(Fun, Fun(X), N - 1)];
-iterate(_, _, _) ->
-    [].
+iterate(_, X, _) ->
+    [X].
+
+nthiteration(_, X, 0) ->
+    X;
+nthiteration(Fun, X, N) when N > 0 ->
+    nthiteration(Fun, Fun(X), N - 1).
 
 scanl(_, Acc, []) ->
     [Acc];
